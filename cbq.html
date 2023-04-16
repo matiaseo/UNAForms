@@ -1,0 +1,994 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CBQ</title>
+    <style>
+    /*StylesPlaceholder*/
+body {
+	background-color: #eff;
+	font-size: 1.3em;
+	max-width: 1366px;
+	padding-bottom: 256px;
+}
+.inputBlock { width:100%; }
+.half { width: 50%; display: inline-block; }
+.half input { width: calc(100% - 32px); }
+.half input { width: calc(100% - 32px); }
+.half select, .half input[type="button"] { width: calc(100% - 22px); }
+.red label { color: red; }
+.green label { color: lightseagreen; }
+.yellow label { color: yellow; }
+.orange label { color: orange; }
+.aquamarine label { color: aquamarine; }
+.hidden { display: none; }
+h2 {
+	text-align: center;
+}
+small {
+  font-weight: lighter;
+}
+p {
+    border: lightgrey solid;
+		border-width: 1px 0 0px 0;
+    color: #333;
+    font-family: initial;
+    margin: 16px 16px 4px;
+    padding-top: 8px;
+}
+label {
+	color: #779;
+	display:block;
+	margin:8px 8px -6px;
+	font-size: 18px;
+}
+fieldset {
+	margin-top: 8px;
+	padding-bottom: 0;
+	padding-top: 0;
+}
+fieldset > legend {
+	color: #779;
+	font-size: 18px;
+}
+fieldset > div {
+	display: table-cell;
+	float:left;
+	min-height: 61px;
+  padding: 0 3%;
+  vertical-align: middle;
+}
+fieldset > div {
+	width: 18%;
+}
+fieldset.radios5 > div {
+	width: 14%;
+}
+fieldset.radios3 > div {
+	width: 27%;
+}
+fieldset.radios2 > div {
+	width: 44%;
+}
+fieldset > div > label {
+	font-size: 14px;
+	margin: 0;
+	min-height: 61px;
+	text-align: center;
+}
+input,select,textarea {
+	background: #def;
+	border: 1px #557 solid;
+	color: #268bd2;
+  margin: 8px;
+  padding: 8px 4px;
+	text-align: left;
+	width: calc(100% - 32px);
+}
+select: {
+	width: calc(100% - 23px);
+}
+fieldset label input {
+	width: 100%;
+	margin: 8px 0;
+}
+.half fieldset label input { width: 100%; }
+option {
+	color: #268bd2;
+	font-size: 16px;
+}
+input.computed { background: #e0eaff; width: 30%;}
+div.computed  label { display: inline; }
+button {
+  top: 8px;
+  right: 4px;
+  background-color: #46a;
+  color: #cef;
+  position: fixed;
+  border: #48f solid 1px;
+  height: 32px;
+}
+/*button.dangerous {
+    background: black;
+    height: 16px;
+    font-size: 12px;
+    top: 256px;
+    color: red;
+    border: none;
+    font-weight: bold;
+}*/
+div#footerContainer {
+	width: 100%;
+  height: 128px;
+  position: relative;
+  margin-bottom: -128px;
+}
+button.closeCaseButton {
+	background: #09a;
+	bottom: 0;
+	color: #fff;
+  font-weight: bold;
+	position:absolute;
+  right: 64px;
+	top: auto;
+}
+button.dangerous {
+    background: #333;
+    font-size: 12px;
+    color: #c55;
+    border: none;
+    font-weight: bold;
+    right: 256px;
+}
+button.save {
+    background: #09a;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    right: 512px;
+}
+button.copy {
+    background: #09a;
+    color: #fff;
+    font-weight: bold;
+    left: 16px;
+		right: 0;
+}
+div#result, div#form { margin-top: 48px; }
+body.form div#result { display: none; }
+body.form button#backButton { display: none; }
+body.form button#copyTableButton { display: none; }
+body.result div#form { display: none; }
+body.result button#getRowButton { display: none; }
+body.result button#showTableButton { display: none; }
+body.result button#addButton { display: none; }
+body.result button#clearButton { display: none; }
+table {
+	background: #EEF;
+	border-collapse: collapse;
+}
+td, th {
+  border: #87c 1px solid;
+  padding: 4px;
+  color: #502;
+}
+th {
+	font-size: 12px;
+}
+div#menu {
+    background: #468;
+    position: fixed;
+    width: 256px;
+    top: 36px;
+    padding: 8px;
+    right: 16px;
+		z-index: 2;
+}
+button.projectButton {
+    position: relative;
+    margin-top: 8px;
+    padding: 4px 32px;
+    font-weight: bolder;
+    font-size: .8em;
+    width: 100%;
+    height: initial;
+    top: initial;
+    font-family: initial;
+    cursor: pointer;
+    right: initial;
+    background: transparent;
+}
+button.downloadButton {
+    position: relative;
+    margin-top: 8px;
+    padding: 4px 32px;
+    font-weight: bolder;
+    font-size: .8em;
+    width: 100%;
+    height: initial;
+    top: initial;
+    font-family: initial;
+    cursor: pointer;
+    right: initial;
+    background: transparent;
+}
+label.loadcsv {
+    text-align: center;
+    background: transparent;
+    border: 1px solid;
+    border-color: #3ed;
+    font-family: initial;
+    color: #cfe;
+    font-size: .8em;
+    font-weight: bolder;
+    padding: 4px;
+    margin: 4px 0;
+    cursor: pointer;
+}
+button.menuButton {
+    background: transparent;
+    color: #46a;
+    height: initial;
+    right: 16px;
+    top: 16px;
+}
+div#menuBg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background: rgba(0,0,0,0.2);
+}
+div#menu.hidden + div#menuBg {
+	display:none;
+}
+    </style>
+    <script>
+      /*DataPlaceholder*/
+var formName = "cbq";
+var cbqOptions = [
+  { value: 1, label: 'Falsa en extremo' },
+  { value: 2, label: 'Bastante falsa' },
+  { value: 3, label: 'Ligeramente falsa' },
+  { value: 4, label: 'Ni falsa ni verdadera' },
+  { value: 5, label: 'Ligeramente cierta' },
+  { value: 6, label: 'Bastante cierta' },
+  { value: 7, label: 'Cierta en extremo' },
+  { value: 'NA', label: 'No aplicable' }
+];
+
+var variables = {
+  title: 'CUESTIONARIO SOBRE CONDUCTA INFANTIL (CBQ)',
+  common: null,
+  fectoma: {
+    label: 'Fecha de encuesta',
+    name: 'FECTOMA',
+    type: 'date',
+    className: ''
+  },
+  entrevistado: {
+    label: 'Entrevistado (parentesco con el niño)',
+    name: 'ENTREVISTADO',
+    type: 'text',
+    className: ''
+  },
+  entrevistador: {
+    label: 'Entrevistador',
+    name: 'ENTREVISTADOR',
+    type: 'text',
+    className: ''
+  },
+  label: 'INSTRUCCIONES: Rogamos que lea detenidamente las siguientes indicaciones<br/>'+
+'antes de comenzar el presente cuestionario.<br/>'+
+'En las páginas siguientes usted podrá ver la descripción de las reacciones de los niños<br/>'+
+'ante determinadas situaciones. Deseamos que usted nos indique qué reacción es la<br/>'+
+'más probable de su hijo/a en estas situaciones. Sabemos que no existe una forma<br/>'+
+'"correcta" de reaccionar; los niños se diferencian mucho en sus reacciones; son<br/>'+
+'precisamente estas diferencias las que pretendemos captar. Por favor, lea cada<br/>'+
+'descripción y decida si es verdadera o falsa en relación con la reacción de su hijo/a<br/>'+
+'durante los seis últimos meses.<br/>'+
+'Utilice la escala siguiente para indicar el grado en que cada una de las afirmaciones se<br/>'+
+'adecúa al comportamiento de su hijo/a:<br/>'+
+'Haga un círculo alrededor del número correspondiente si la descripción es:<br/>'+
+'<br/>'+
+'Falsa en extremo (1)<br/>'+
+'Bastante falsa (2)<br/>'+
+'Ligeramente falsa (3)<br/>'+
+'Ni falsa ni verdadera (4)<br/>'+
+'Ligeramente cierta (5)<br/>'+
+'Bastante cierta (6)<br/>'+
+'Cierta en extremo (7)<br/>'+
+'<br/>'+
+'Si usted no puede contestar una de estas preguntas porque nunca ha visto a su hijo/a<br/>'+
+'en una situación determinada, marque con un círculo la opción NA (No Aplicable). Así<br/>'+
+'por ejemplo, si le preguntan por la reacción de su hijo cuando usted canta, y usted no<br/>'+
+'le ha cantado, entonces debe marcar NA.<br/>'+
+'<br/>'+
+'<b>Por favor, asegúrese de que ha respondido a todas las preguntas.</b>',
+  fectoma: {
+    label: 'Fecha de encuesta',
+    name: 'FECTOMA',
+    type: 'date',
+    className: ''
+  },
+  startCount: null,
+  item1: {
+    label: 'Da la impresión de que siempre tiene prisa cuando se mueve de un sitio a otro.',
+    name: 'ITEM1',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item2: {
+    label: 'Se siente bastante frustrado cuando se le impide hacer algo que quiere hacer.',
+    name: 'ITEM2',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item3: {
+    label: 'Muestra una gran concentración cuando dibuja o pinta en un libro.',
+    name: 'ITEM3',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item4: {
+    label: 'Le gusta deslizarse por lugares altos o realizar otras actividades arriesgadas.',
+    name: 'ITEM4',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item5: {
+    label: 'Se encuentra muy molesto por un pequeño corte o golpe.',
+    name: 'ITEM5',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item6: {
+    label: 'Prepara los viajes y excursiones planificando las cosas que necesitará.',
+    name: 'ITEM6',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item7: {
+    label: 'Con frecuencia se lanza hacia nuevas situaciones.',
+    name: 'ITEM7',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item8: {
+    label: 'Tiende a ponerse triste si los planes familiares no se realizan.',
+    name: 'ITEM8',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item9: {
+    label: 'Le gusta que le canten.',
+    name: 'ITEM9',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item10: {
+    label: 'Parece encontrarse cómodo/a con casi todo el mundo.',
+    name: 'ITEM10',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item11: {
+    label: 'Tiene miedo de los ladrones y del “cuco".',
+    name: 'ITEM11',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item12: {
+    label: 'Se da cuenta cuando los padres llevan ropa nueva.',
+    name: 'ITEM12',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item13: {
+    label: 'Prefiere las actividades tranquilas antes que los juegos activos.',
+    name: 'ITEM13',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item14: {
+    label: 'Cuando se enfada por algo, suele estar molesto durante 10 minutos o más.',
+    name: 'ITEM14',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item15: {
+    label: 'Cuando juega con un rompecabezas o juegos de construcción, se queda concentrado en lo que está haciendo y trabaja durante mucho tiempo.',
+    name: 'ITEM15',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item16: {
+    label: 'En los columpios, le gusta que se le empuje alto y rápido.',
+    name: 'ITEM16',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item17: {
+    label: 'Parece sentirse triste cuando no puede finalizar alguna tarea.',
+    name: 'ITEM17',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item18: {
+    label: 'Sigue las instrucciones que se le dan.',
+    name: 'ITEM18',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item19: {
+    label: 'Le lleva mucho tiempo entrar en contacto con nuevas situaciones.',
+    name: 'ITEM19',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item20: {
+    label: 'Es muy raro que se queje cuando está enfermo con un resfriado.',
+    name: 'ITEM20',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item21: {
+    label: 'Le gusta el sonido de las palabras, como en las canciones infantiles.',
+    name: 'ITEM21',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item22: {
+    label: 'A veces es tímido/a, incluso con gente que conoce desde hace tiempo.',
+    name: 'ITEM22',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item23: {
+    label: 'Es difícil de calmar cuando se disgusta.',
+    name: 'ITEM23',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item24: {
+    label: 'Se da cuenta rapidamente de cualquier detalle nuevo en el "cuarto de estar".',
+    name: 'ITEM24',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item25: {
+    label: 'Está lleno de energía, incluso por la noche.',
+    name: 'ITEM25',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item26: {
+    label: 'No tiene miedo a la oscuridad.',
+    name: 'ITEM26',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item27: {
+    label: 'A veces se queda absorto mirando durante mucho tiempo un dibujo de un libro.',
+    name: 'ITEM27',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item28: {
+    label: 'Le gustan los juegos brutos/camorristas.',
+    name: 'ITEM28',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item29: {
+    label: 'No se molesta mucho por pequeños cortes o arañazos.',
+    name: 'ITEM29',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item30: {
+    label: 'Se acerca lenta y cautelosamente a lugares que le han dicho que son peligrosos.',
+    name: 'ITEM30',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item31: {
+    label: 'Es lento, no tiene prisa para decidir lo que a continuación tiene que hacer.',
+    name: 'ITEM31',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item32: {
+    label: 'Se enfada cuando no encuentra algo con lo que quiere jugar.',
+    name: 'ITEM32',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item33: {
+    label: 'Disfruta con actividades rítmicas, como mecerse o balancearse.',
+    name: 'ITEM33',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item34: {
+    label: 'A veces se aparta tímidamente de las nuevas amistades.',
+    name: 'ITEM34',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item35: {
+    label: 'Se disgusta cuando familiares o amigos queridos se disponen a marchar después de una visita.',
+    name: 'ITEM35',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  },
+  item36: {
+    label: 'Hace comentarios cuando uno de los padres cambia de aspecto o de apariencia.',
+    name: 'ITEM36',
+    type: 'select',
+    className: '',
+    options: cbqOptions
+  }
+};
+      /*ScriptsPlaceholder*/
+var commonVariables = {
+  caso: {
+    label: 'Número de caso',
+    name: 'CASO',
+    type: 'index',
+    className: ' red'
+  },
+  nombre: {
+    label: 'Apellido y nombre',
+    name: 'NOMBRE',
+    type: 'text',
+    className: ' red'
+  },
+  escuela: {
+    label: 'Escuela',
+    name: 'ESCUELA',
+    type: 'text',
+    className: ' red'
+  },
+  turno: {
+    label: 'Turno',
+    name: 'TURNO',
+    type: 'select',
+    className: ' red',
+    options: [
+      {value: '0', label: 'Mañana'},
+      {value: '1', label: 'Tarde'},
+      {value: '2', label: 'Jornada completa'}
+    ]
+  },
+  sala: {
+    label: 'Sala',
+    name: 'SALA',
+    type: 'text',
+    className: ' red'
+  },
+  genero: {
+    label: 'Género',
+    name: 'GENERO',
+    type: 'select',
+    className: ' red',
+    options: [
+      {value: '0', label: 'Femenino'},
+      {value: '1', label: 'Masculino'}
+    ]
+  },
+  fecnac: {
+    label: 'Fecha de nacimiento',
+    name: 'FECNAC',
+    type: 'date',
+    className: ' red'
+  }
+};
+var getBackupData = function() {
+	var d = localStorage.getItem(getProject());
+  return d;
+}
+var getData = function(k) {
+	var d = localStorage.getItem(k);
+  return d && JSON.parse(d);
+}
+var setData = function(k, obj) {
+	var js = JSON.stringify(obj);
+	console.log('storing json', js.length);
+  localStorage.setItem(k, js);
+}
+var setProject = function(p) {
+  localStorage.setItem('currentProject', p);
+	return getProject();
+}
+var getProject = function() {
+	return localStorage.getItem('currentProject');
+}
+var getProjects = function() {
+	var ps = [];
+	for (var k in localStorage) {
+		if (localStorage.hasOwnProperty(k) && !(/currentCase|currentProject/.test(k))) ps.push(k);
+	}
+	return ps;
+}
+var setCase = function(c) {
+  localStorage.setItem('currentCase', c);
+	return getCase();
+}
+var getCase = function() {
+	return localStorage.getItem('currentCase');
+}
+var fetchCase = function(n) {
+  var arr = getData(getProject());
+	if(!arr) return;
+  for(var i=0, it; it = arr[i++];)
+    if (it.common['caso'] == n) return it;
+}
+var loadCaseValues = function(n) {
+	if(n === undefined) n = loadCase();
+  var data = fetchCase(n);
+	if(!data || data && !data.common) {
+		// initialize();
+		setInputValue('caso', n);
+		saveCaseValues();
+		return;
+	}
+  for(var k in data.common)
+    setInputValue(k, data.common[k]);
+	if(data[formName])
+	  for(var j in data[formName])
+	    setInputValue(j, data[formName][j]);
+}
+var saveCaseValues = function() {
+  var proj = getProject(),
+    arr = getData(proj) || [],
+    n = getInputValue('caso'),
+		found = false,
+		data = {common:{}};
+  for(var i=0, it; it = arr[i++];) {
+		if (it.common['caso'] == n) {
+			data = it;
+			found = true;
+			break;
+		}
+	}
+	if(!data[formName]) data[formName] = {};
+	for(var k in variables)
+		if(getType(k) != 'label') data[formName][k] = getInputValue(k);
+	for(var j in commonVariables)
+		data.common[j] = getInputValue(j);
+	data[formName].observ = getInputValue('observ');
+	data.common['guardado'] = new Date().getTime();
+	if(!found) arr.push(data);
+  setData(proj, arr);
+}
+var getType = function(k) {
+	var item = commonVariables[k] || variables[k];
+	if(typeof item === "string" || item === null) return 'label';
+	if(k == 'observ') return 'text';
+	return item && item.type;
+}
+var setInputValue = function(k,v) {
+	// console.log(k,v);
+	if(!k || k == 'guardado') return;
+	if(v === undefined) v = '';
+  var el = document.getElementById(k);
+  if(getType(k) == 'select') {
+		for(var i=0,it;it=el.children[i++];)
+			if(it.dataset.value == v)
+				return el.value = it.value;
+		return;
+	}
+  if(getType(k) == 'radio') {
+    for(var i=1,it;it=el.children[i++];)
+      if(it.lastChild.lastChild.dataset.value == v)
+        return it.lastChild.lastChild.checked = true;
+      else it.lastChild.lastChild.checked = false;
+		return;
+  }
+  if(getType(k) == 'text' || getType(k) == 'date' || getType(k) == 'number' || getType(k) == 'index')
+  	return el.value = v;
+	console.log('cannot set', k,v, getType(k));
+}
+var getInputValue = function(k) {
+  if(!variables[k] && !commonVariables[k] && (k != 'observ')) return null;
+  var el = document.getElementById(k);
+  if(getType(k) == 'select')
+    return el.selectedOptions[0].dataset.value;
+  if(getType(k) == 'radio') {
+    for(var i=1,it;it=el.children[i++];)
+      if(it.lastChild.lastChild.checked)
+        return it.lastChild.lastChild.dataset.value;
+    return '';
+  }
+  if(getType(k) == 'text' || getType(k) == 'date' || getType(k) == 'number' || getType(k) == 'index')
+  	return el.value;
+	console.log('Cannot get value ', k);
+}
+var importCommon = function(d) {
+	var proj = getProject(),
+	arr = getData(proj) || [],
+	found = false,
+	data = {common:{}};
+	for(var i=0, it; it = arr[i++];)
+		if(it.common['caso'] === d['caso']) {
+			data = it;
+			found = true;
+			break;
+		}
+	for(var j in commonVariables)
+		data.common[j] = d[j] || data.common[j];
+	if(!found) arr.push(data);
+	setData(proj, arr);
+}
+
+var importData = function(d) {
+  var proj = getProject(),
+    arr = getData(proj) || [],
+		found = false;
+  for(var i=0; i < arr.length; i++) {
+		if (arr[i].common['caso'] == d.common['caso']) {
+			if(d.common['guardado']||0 >= (arr[i].common['guardado']||0))
+				arr[i] = d;
+			else
+				return;
+			found = true;
+			break;
+		}
+	}
+	if(!found) arr.push(d);
+  setData(proj, arr);
+}
+var getOptions = function(options) {
+  var list = '<option value="" data-value="">N/C</value>', i = 0;
+  options.forEach(function(item) {
+    list += '<option value="' + i++ + '"data-value="' +
+      item.value + '">' + item.label +
+      ' ('+item.value+')'+'</option>'
+  });
+  return list;
+};
+var getRadios = function(id, options) {
+  var list = '', i = 0;
+  options.forEach(function(item) {
+    list += '<div><label>' + item.label +' ('+item.value+')'+
+      '<input type="radio" name="radio'+id+'" value="' + i++ + '"data-value="' +
+      item.value + '" onchange="handleChange()"/></label></div>';
+  });
+  return list;
+};
+var createInput = function(k, item, index) {
+	var newField = '';
+	if(k=='title') {
+		newField += '<h2>'+item+'</h2>';
+	} else if(k=='startCount') {
+    // start item count
+	} else if(k=='common') {
+    for(var j in commonVariables) newField += createInput(j,commonVariables[j]);
+  } else if(/^title[0-9]*/.test(k)) {
+		newField += '<h2>'+item+'</h2>';
+	} else if(/^label[0-9]*/.test(k)) {
+		newField += '<p>'+item+'</p>';
+	} else {
+		newField += '<div class="inputBlock'+
+			(item.className?' '+item.className+'"':'"')+
+			'><label for="'+k+'">' + (index > 0?'<strong>'+ index + '</strong> ' : '') +item.label+'</label>'
+		if(item.type == 'select')
+			newField += '<select id="'+k+'" onchange="handleChange()">'+
+				getOptions(item.options)+'</select>';
+		if(k == 'caso')
+			newField += '<input type="button" id="'+k+'" onclick="loadCase()"/>';
+		if(item.type == 'text')
+			newField += '<input type="text" placeholder="'+item.label+
+				'" id="'+k+'" onchange="handleChange()"/>';
+		if(item.type == 'textarea')
+			newField += '<textarea rows="8" placeholder="'+item.label+
+				'" id="'+k+'" onchange="handleChange()"></textarea>';
+		if(item.type == 'date')
+			newField += '<input type="date" placeholder="'+item.label+
+				'" id="'+k+'" onchange="handleChange()"/>';
+		if(item.type == 'radio')
+			newField = newField.slice(0,-(22+k.length+item.label.length+(index > 0?'<strong>'+ index + '</strong> ' : '').length))+
+				'<fieldset id="'+k+'" class="radios'+item.options.length+'""><legend>'+(index > 0?'<strong>'+ index + '</strong> ' : '')+item.label+'</legend>'+
+				getRadios(k,item.options)+'</fieldset>';
+		newField += '</div>';
+	}
+	return newField;
+}
+var initialize = function() {
+	var c, form = '', i = 0;
+  for(var k in variables) {
+    form += createInput(k,variables[k],i);
+    if((i && getType(k) != 'label')||(!i && k === 'startCount')) i++;
+  }
+  form += createInput('observ',{type:'textarea', label:'Observaciones sobre la entrevista', name:'OBSERV'},i);
+  document.getElementById('form').innerHTML = form;
+  if(!(c = getProject())) c = loadProject();
+  document.getElementById('projectButton').innerHTML = 'Proyecto: ' + c;
+  if(c && !getData(c)) loadCase();
+  else loadCaseValues(getCase());
+  document.getElementById('menu').className = 'hidden';
+};
+var copyToClipboard = function() {
+  document.execCommand('copy');
+};
+
+// To Do:
+var loadCase = function() {
+  // Show prompt with input for case number
+	var c = window.prompt("Ingresar Caso", getCase() || ''),
+    p;
+  if(c) {
+    setCase(c);
+    if(!getData(p = getProject())) setData(p,[]);
+    initialize();
+  }
+};
+var loadProject = function() {
+  // Show prompt with input for project name
+	var pl = getProjects(),
+    p = window.prompt("Proyectos cargados: \n * "+pl.join("\n * ")+"\n\nIngresar nombre de projecto", getProject() || 'UNA2018h1');
+  if(p) setProject(p);
+  if(!getProject()) loadProject();
+  else initialize();
+};
+var showDataTable = function() {
+  // Call external function to generate back up table
+};
+var showExportTable = function() {
+  // Call external function to generate output table.
+};
+var importCSV = function() {
+  // Show prompt with text input
+  // Parse CSV to JS Object and store
+  // Reload basic data
+};
+var handleChange = function() {
+	// console.log('change detected');
+  if(getCase())
+    saveCaseValues();
+  else loadCase();
+  // Auto save case.
+};
+var handleCloseCase = function() {
+  handleChange();
+  if(window.confirm('Guardar y limpiar formulario?')) {
+    setCase('');
+    initialize();
+  }
+};
+var handleDownload = function() {
+  var data = 'data:Application/octet-stream,' + encodeURIComponent(getBackupData());
+  var dlb = document.createElement('a');
+  dlb.id = 'downloadButton';
+  dlb.download = 'unaforms' + getProject() + new Date().toISOString().substr(0,16) + '.json';
+  dlb.href = data;
+  dlb.click();
+};
+var handleInput = function(f) {
+  var fr = new FileReader();
+  fr.readAsText(f,'latin1');
+  fr.onload = function(e) {
+  //ToDo: Check \r in dates
+    try {
+      var data = e.target.result.split("\n"),
+      c, i = 0, r;
+      if(data[i].toLowerCase().indexOf('caso;') === 0) i++;
+      var n = data.length - i;
+      console.log(n);
+      for(;r=data[i++];){
+        c = r.split(';', 7);
+        importCommon({
+          caso:   c[0],
+          nombre: c[1],
+          escuela:c[2],
+          turno:  ''+(c[3].length > 1? 'MTJ'.indexOf(c[3].charAt(0)) : c[3]),
+          sala:   c[4],
+          genero: c[5],
+          fecnac: c[6].substr(0,10).split('/').reverse().join('-')
+        });
+      }
+      alert(n + " Casos cargados");
+    } catch (e) {
+      alert("Error al intentar leer archivo\n" + e);
+    }
+  }
+  fr.onerror = function(e) {
+    alert("Error al intentar leer archivo\n" + e.target.error.name);
+  }
+};
+var handleJSONInput = function(f) {
+  var fr = new FileReader();
+  filename = f.name;
+  console.log(filename, f);
+  fr.readAsText(f);
+  fr.onload = function(e) {
+    var data = JSON.parse(e.target.result);
+    data.forEach((data) => { importData(data); });
+    alert(data.length + " casos cargados");
+    initialize();
+  }
+  fr.onerror = function(e) {
+    alert("Error al intentar leer archivo\n" + e.target.error.name);
+  }
+};
+
+var handleMenu = function() {
+  var m = document.getElementById('menu');
+  m.className = m.className?'':'hidden';
+};
+var handleMenuClose = function() {
+  document.getElementById('menu').className = 'hidden';
+};
+
+//
+// var clearForm = function() {
+//   if(window.confirm('Borrar todos los datos?')){
+//     initialize();
+//     // backToForm();
+//   }
+// };
+window.onload = initialize;
+    </script>
+  </head>
+  <body id="body" class="form">
+		<button onclick="handleMenu()" class="menuButton">=</button>
+		<div id="menu" class="hidden">
+			<button id="projectButton" onclick="loadProject()" class="projectButton"></button>
+			<label for="loadCSV" class="loadcsv">Cargar casos (CSV)</label>
+			<input id="loadCSV" type="file" onchange="handleInput(this.files[0])" class="hidden" />
+			<label for="loadJSON" class="loadcsv">Cargar back up (JSON)</label>
+			<input id="loadJSON" type="file" onchange="handleJSONInput(this.files[0])" class="hidden" />
+			<button onclick="handleDownload()" class="downloadButton">Back up</button>
+		</div>
+		<div id="menuBg" onclick="handleMenuClose()"></div>
+		<div id="result"></div>
+    <!-- <button id="getRowButton" onclick="getRow()">Ver resultado</button> -->
+		<!-- <button id="copyTableButton" onclick="copyToClipboard()">Ver resultados</button>
+    <button id="showTableButton" onclick="showTable()">Ver resultados</button>
+    <button id="addButton" class="save" onclick="addRow()">Guardar datos</button>
+		<button id="backButton" onclick="backToForm()">Ver formulario</button> -->
+		<!-- <button id="clearButton" class="dangerous" onclick="clearForm()">Limpiar formulario</button> -->
+		<div id="form"></div>
+		<div id="footerContainer">
+			<button onclick="handleCloseCase()" class="closeCaseButton">Guardar y cerrar caso</button>
+		</div>
+  </body>
+</html>
