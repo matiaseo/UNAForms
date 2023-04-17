@@ -1,0 +1,3411 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>NES</title>
+    <style>
+    /*StylesPlaceholder*/
+body {
+	background-color: #eff;
+	font-size: 1.3em;
+	max-width: 1366px;
+	padding-bottom: 256px;
+}
+.inputBlock { width:100%; }
+.half { width: 50%; display: inline-block; }
+.half input { width: calc(100% - 32px); }
+.half input { width: calc(100% - 32px); }
+.half select, .half input[type="button"] { width: calc(100% - 22px); }
+.red label { color: red; }
+.green label { color: lightseagreen; }
+.yellow label { color: yellow; }
+.orange label { color: orange; }
+.aquamarine label { color: aquamarine; }
+.hidden { display: none; }
+h2 {
+	text-align: center;
+}
+small {
+  font-weight: lighter;
+}
+p {
+    border: lightgrey solid;
+		border-width: 1px 0 0px 0;
+    color: #333;
+    font-family: initial;
+    margin: 16px 16px 4px;
+    padding-top: 8px;
+}
+label {
+	color: #779;
+	display:block;
+	margin:8px 8px -6px;
+	font-size: 18px;
+}
+fieldset {
+	margin-top: 8px;
+	padding-bottom: 0;
+	padding-top: 0;
+}
+fieldset > legend {
+	color: #779;
+	font-size: 18px;
+}
+fieldset > div {
+	display: table-cell;
+	float:left;
+	min-height: 61px;
+  padding: 0 3%;
+  vertical-align: middle;
+}
+fieldset > div {
+	width: 18%;
+}
+fieldset.radios5 > div {
+	width: 14%;
+}
+fieldset.radios3 > div {
+	width: 27%;
+}
+fieldset.radios2 > div {
+	width: 44%;
+}
+fieldset > div > label {
+	font-size: 14px;
+	margin: 0;
+	min-height: 61px;
+	text-align: center;
+}
+input,select,textarea {
+	background: #def;
+	border: 1px #557 solid;
+	color: #268bd2;
+  margin: 8px;
+  padding: 8px 4px;
+	text-align: left;
+	width: calc(100% - 32px);
+}
+select: {
+	width: calc(100% - 23px);
+}
+fieldset label input {
+	width: 100%;
+	margin: 8px 0;
+}
+.half fieldset label input { width: 100%; }
+option {
+	color: #268bd2;
+	font-size: 16px;
+}
+input.computed { background: #e0eaff; width: 30%;}
+div.computed  label { display: inline; }
+button {
+  top: 8px;
+  right: 4px;
+  background-color: #46a;
+  color: #cef;
+  position: fixed;
+  border: #48f solid 1px;
+  height: 32px;
+}
+/*button.dangerous {
+    background: black;
+    height: 16px;
+    font-size: 12px;
+    top: 256px;
+    color: red;
+    border: none;
+    font-weight: bold;
+}*/
+div#footerContainer {
+	width: 100%;
+  height: 128px;
+  position: relative;
+  margin-bottom: -128px;
+}
+button.closeCaseButton {
+	background: #09a;
+	bottom: 0;
+	color: #fff;
+  font-weight: bold;
+	position:absolute;
+  right: 64px;
+	top: auto;
+}
+button.dangerous {
+    background: #333;
+    font-size: 12px;
+    color: #c55;
+    border: none;
+    font-weight: bold;
+    right: 256px;
+}
+button.save {
+    background: #09a;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    right: 512px;
+}
+button.copy {
+    background: #09a;
+    color: #fff;
+    font-weight: bold;
+    left: 16px;
+		right: 0;
+}
+div#result, div#form { margin-top: 48px; }
+body.form div#result { display: none; }
+body.form button#backButton { display: none; }
+body.form button#copyTableButton { display: none; }
+body.result div#form { display: none; }
+body.result button#getRowButton { display: none; }
+body.result button#showTableButton { display: none; }
+body.result button#addButton { display: none; }
+body.result button#clearButton { display: none; }
+table {
+	background: #EEF;
+	border-collapse: collapse;
+}
+td, th {
+  border: #87c 1px solid;
+  padding: 4px;
+  color: #502;
+}
+th {
+	font-size: 12px;
+}
+div#menu {
+    background: #468;
+    position: fixed;
+    width: 256px;
+    top: 36px;
+    padding: 8px;
+    right: 16px;
+		z-index: 2;
+}
+button.projectButton {
+    position: relative;
+    margin-top: 8px;
+    padding: 4px 32px;
+    font-weight: bolder;
+    font-size: .8em;
+    width: 100%;
+    height: initial;
+    top: initial;
+    font-family: initial;
+    cursor: pointer;
+    right: initial;
+    background: transparent;
+}
+button.downloadButton {
+    position: relative;
+    margin-top: 8px;
+    padding: 4px 32px;
+    font-weight: bolder;
+    font-size: .8em;
+    width: 100%;
+    height: initial;
+    top: initial;
+    font-family: initial;
+    cursor: pointer;
+    right: initial;
+    background: transparent;
+}
+label.loadcsv {
+    text-align: center;
+    background: transparent;
+    border: 1px solid;
+    border-color: #3ed;
+    font-family: initial;
+    color: #cfe;
+    font-size: .8em;
+    font-weight: bolder;
+    padding: 4px;
+    margin: 4px 0;
+    cursor: pointer;
+}
+button.menuButton {
+    background: transparent;
+    color: #46a;
+    height: initial;
+    right: 16px;
+    top: 16px;
+}
+div#menuBg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background: rgba(0,0,0,0.2);
+}
+div#menu.hidden + div#menuBg {
+	display:none;
+}
+    </style>
+    <script>
+      /*DataPlaceholder*/
+var formName = 'nes';
+var regiones = [
+  { value: 0, label:"CABA, Gran Buenos Aires"},
+  { value: 1, label:"Cuyo"},
+  { value: 2, label:"Noreste"},
+  { value: 3, label:"Noroeste"},
+  { value: 4, label:"Pampeana"},
+  { value: 5, label:"Patagonia"},
+  { value: 6, label:"Otro país"}
+];
+var paises = [
+  { value: 0, label:"Argentina"},
+  { value: 1, label:"Chile"},
+  { value: 2, label:"Bolivia"},
+  { value: 3, label:"Perú"},
+  { value: 4, label:"Paraguay"},
+  { value: 5, label:"Brasil"},
+  { value: 6, label:"Uruguay"}
+];
+var estudios = [
+  { value: 0, label:"Sin estudios"},
+  { value: 1, label:"Primario incompleto"},
+  { value: 3, label:"Primario completo"},
+  { value: 6, label:"Secundario incompleto"},
+  { value: 9, label:"Secundario completo"},
+  { value: 9, label:"Terciario incompleto"},
+  { value: 10, label:"Terciario completo"},
+  { value: 10, label:"Universitario incompleto"},
+  { value: 12, label:"Universitario completo"}
+];
+var ocupaciones = [
+  { value: 12, label:"Director de empresa, Dueño de comercio (grande)"},
+  { value: 11, label:"Profesional"},
+  { value: 10, label:"Propietario de pequeña empresa o comercio"},
+  { value: 8, label:"Técnico, docente, enfermero"},
+  { value: 7, label:"Empleado administrativo, vendedor, patio de comidas, recepcionista"},
+  { value: 6, label:"Pequeño productor autónomo, trabajador autónomo especializado"},
+  { value: 4, label:"Obrero calificado, cadete, chofer, cocinero, mozo, mantenimiento, portero, ayudante de..., distribuidor de bebidas, repositor, albañil, modista, mecánico"},
+  { value: 2, label:"Obrero no calificado, barrendero"},
+  { value: 1, label:"Trabajador inestable, empleada doméstica, vendedor ambulante, changas, cosechas, venta en feria, producciones en el hogar no estable"},
+  { value: 0, label:"Desocupado, no trabaja, ama de casa, jefes de hogar"}
+];
+var subsidios = [
+  { value:  0, label:"Ninguno"},
+  { value:  1, label:"Jefes y Jefas"},
+  { value:  2, label:"Ciudadanía porteña"},
+  { value:  3, label:"Plan madre"},
+  { value:  4, label:"Ticket"},
+  { value:  5, label:"Plan familia"},
+  { value:  6, label:"Subsidio anual escolar"},
+  { value:  7, label:"Estudiar es trabajar"},
+  { value:  8, label:"Beca"},
+  { value:  9, label:"Chequera"},
+  { value: 10, label:"Asignación universal por hijo"}
+];
+var frecuencia = [
+  { value: 1, label:"Diariamente"},
+  { value: 2, label:"Casi todos los días"},
+  { value: 3, label:"A veces"},
+  { value: 4, label:"Nunca"},
+  { value: 5, label:"No"}
+];
+var frecuenciaInfo = [
+  { value: 0, label:"Todos los días"},
+  { value: 1, label:"Casi todos los días"},
+  { value: 2, label:"Nunca"}
+];
+var variables = {
+  title: 'ESCALA DE NIVEL ECONÓMICO SOCIAL (NES)',
+  common: null,
+  fectoma: {
+    label: 'Fecha de encuesta',
+    name: 'FECTOMA',
+    type: 'date',
+    className: ''
+  },
+  entrevistado: {
+    label: 'Entrevistado (parentesco con el niño)',
+    name: 'ENTREVISTADO',
+    type: 'text',
+    className: ''
+  },
+  entrevistador: {
+    label: 'Entrevistador',
+    name: 'ENTREVISTADOR',
+    type: 'text',
+    className: ''
+  },
+  edadSala: {
+    label: 'Edad de sala',
+    name: 'EDADSALA',
+    type: 'text',
+    className: ''
+  },
+  regnac: {
+    label: 'Lugar de Nacimiento',
+    name: 'REGNAC',
+    type: 'select',
+    className: '',
+    options: regiones
+  },
+  nacionalidad: {
+    label: 'Nacionalidad',
+    name: 'NACIONALIDAD',
+    type: 'select',
+    className: '',
+    options: paises
+  },
+  tiempobsas: {
+    label: 'Tiempo de residencia del niño/a en Buenos Aires',
+    name: 'TIEMPOBSAS',
+    type: 'text',
+    className: ''
+  },
+  // parentesco: {
+  //   label: 'Persona entrevistada (parentesco)',
+  //   name: 'PARENTESCO',
+  //   type: 'text',
+  //   className: ''
+  // },
+  startCount: null,
+  label1:'<b>ANTECEDENTES SANITARIOS DEL NIÑO/A</b>',
+  label2:'Antropometría<br/>Se consigna la información provista por el tutor en caso de no tener libreta sanitaria.',
+  pesonacer: {
+    label: 'Peso al nacer',
+    name: 'PESONACER',
+    type: 'text',
+    className: ''
+  },
+  height: {
+    label: 'Talla al nacer',
+    name: 'TALLANACER',
+    type: 'text',
+    className: ''
+  },
+  perimcefalic: {
+    label: 'Perímetro cefálico al nacer',
+    name: 'PERIMCEFALIC',
+    type: 'text',
+    className: ''
+  },
+  label3:'Historia prenatal y parto<br/>Se consigna con una "X" en "SI" o "NO" y se completa en observaciones cuando corresponda.',
+  controles: {
+    label: 'Controles durante el embarazo (al menos 4 consultas al obstetra)',
+    name: 'CONTROLES',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  controleso: {
+    label: 'Observaciones',
+    name: 'CONTROLESO',
+    type: 'text',
+    className: ''
+  },
+  complicembarazo: {
+    label: 'Complicaciones durante el embarazo (por ejemplo alta presión)',
+    name: 'COMPLICEMBARAZO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  complicembarazoo: {
+    label: 'Cuáles',
+    name: 'COMPLICEMBARAZOO',
+    type: 'text',
+    className: ''
+  },
+  gestacion: {
+    label: 'Tiempo de gestación (semanas) - información de la libreta saniltaria',
+    name: 'GESTACION',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  gestaciono: {
+    label: 'Observaciones',
+    name: 'GESTACIONO',
+    type: 'text',
+    className: ''
+  },
+  alcoholismo: {
+    label: 'Consumo de alcohol durante el embarazo',
+    name: 'ALCOHOLISMO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  alcoholismoo: {
+    label: 'Observaciones',
+    name: 'ALCOHOLISMOO',
+    type: 'text',
+    className: ''
+  },
+  tabaquismo: {
+    label: 'Consumo de tabaco durante el embarazo',
+    name: 'TABAQUISMO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  tabaquismoo: {
+    label: 'Observaciones',
+    name: 'TABAQUISMOO',
+    type: 'text',
+    className: ''
+  },
+  medicaciones: {
+    label: 'Medicaciones prescriptas (excluir hierro)',
+    name: 'MEDICACIONES',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  medicacioneso: {
+    label: 'Cuáles',
+    name: 'MEDICACIONESO',
+    type: 'text',
+    className: ''
+  },
+  hierroembar: {
+    label: 'Suplemento de hierro',
+    name: 'HIERROEMBAR',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si (Hierro/Vitaminas)"},
+      { value: 1, label:"No"}
+    ]
+  },
+  hierroembaro: {
+    label: 'Observaciones',
+    name: 'HIERROEMBARO',
+    type: 'text',
+    className: ''
+  },
+  parto: {
+    label: 'Parto normal',
+    name: 'PARTO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  partoo: {
+    label: 'Observaciones',
+    name: 'PARTOO',
+    type: 'text',
+    className: ''
+  },
+  complicparto: {
+    label: 'Complicaciones en el parto',
+    name: 'COMPLICPARTO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  complicpartoo: {
+    label: 'Observaciones',
+    name: 'COMPLICPARTOO',
+    type: 'text',
+    className: ''
+  },
+  lampara: {
+    label: 'Necesitó lámpara',
+    name: 'LAMPARA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  lamparao: {
+    label: 'Cuánto Tiempo (horas, días, semanas)?',
+    name: 'LAMPARAO',
+    type: 'text',
+    className: ''
+  },
+  incubadora: {
+    label: 'Necesitó incubadora',
+    name: 'INCUBADORA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  incubadorao: {
+    label: 'Cuánto Tiempo (horas, días, semanas)?',
+    name: 'INCUBADORAO',
+    type: 'text',
+    className: ''
+  },
+  oxigeno: {
+    label: 'Necesitó máscara de oxígeno',
+    name: 'OXIGENO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  oxigenoo: {
+    label: 'Cuánto Tiempo (horas, días, semanas)?',
+    name: 'OXIGENOO',
+    type: 'text',
+    className: ''
+  },
+  label4:'Historia perinatal e infantil <br/>Completar con Si o No para cada pregunta. En el caso que el antecedente haya requerido internación, consignar el tiempo que estuvo internado.',
+  golpescabeza: {
+    label: 'Recibió golpes en la cabeza y tuvo pérdida de conocimiento',
+    name: 'GOLPESCABEZA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  golpescabezao1: {
+    label: 'Edad',
+    name: 'GOLPESCABEZAO1',
+    type: 'text',
+    className: ''
+  },
+  golpescabezao2: {
+    label: 'Duración de internación',
+    name: 'GOLPESCABEZAO2',
+    type: 'text',
+    className: ''
+  },
+  golpescabezao3: {
+    label: 'Motivo',
+    name: 'GOLPESCABEZAO3',
+    type: 'text',
+    className: ''
+  },
+  convulsiones: {
+    label: 'Tuvo convulsiones sin fiebre',
+    name: 'CONVULSIONES',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  convulsioneso1: {
+    label: 'Edad',
+    name: 'CONVULSIONESO1',
+    type: 'text',
+    className: ''
+  },
+  convulsioneso2: {
+    label: 'Duración de internación',
+    name: 'CONVULSIONESO2',
+    type: 'text',
+    className: ''
+  },
+  convulsioneso3: {
+    label: 'Motivo',
+    name: 'CONVULSIONESO3',
+    type: 'text',
+    className: ''
+  },
+  meningitis: {
+    label: 'Tuvo meningitis',
+    name: 'MENINGITIS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  meningitiso1: {
+    label: 'Edad',
+    name: 'MENINGITISO1',
+    type: 'text',
+    className: ''
+  },
+  meningitiso2: {
+    label: 'Duración de internación',
+    name: 'MENINGITISO2',
+    type: 'text',
+    className: ''
+  },
+  meningitiso3: {
+    label: 'Motivo',
+    name: 'MENINGITISO3',
+    type: 'text',
+    className: ''
+  },
+  hidrocefalia: {
+    label: 'Tuvo hidrocefalia',
+    name: 'HIDROCEFALIA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  hidrocefaliao1: {
+    label: 'Edad',
+    name: 'HIDROCEFALIAO1',
+    type: 'text',
+    className: ''
+  },
+  hidrocefaliao2: {
+    label: 'Duración de internación',
+    name: 'HIDROCEFALIAO2',
+    type: 'text',
+    className: ''
+  },
+  hidrocefaliao3: {
+    label: 'Motivo',
+    name: 'HIDROCEFALIAO3',
+    type: 'text',
+    className: ''
+  },
+  operado: {
+    label: 'Fue operado',
+    name: 'OPERADO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  operadoo1: {
+    label: 'Edad',
+    name: 'OPERADOO1',
+    type: 'text',
+    className: ''
+  },
+  operadoo2: {
+    label: 'Duración de internación',
+    name: 'OPERADOO2',
+    type: 'text',
+    className: ''
+  },
+  operadoo3: {
+    label: 'Motivo',
+    name: 'OPERADOO3',
+    type: 'text',
+    className: ''
+  },
+  internado: {
+    label: 'Estuvo internado',
+    name: 'INTERNADO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  internadoo1: {
+    label: 'Edad',
+    name: 'INTERNADOO1',
+    type: 'text',
+    className: ''
+  },
+  internadoo2: {
+    label: 'Duración de internación',
+    name: 'INTERNADOO2',
+    type: 'text',
+    className: ''
+  },
+  internadoo3: {
+    label: 'Motivo',
+    name: 'INTERNADOO3',
+    type: 'text',
+    className: ''
+  },
+  medicamentos: {
+    label: 'Toma medicamentos (aclarar cuál/es)',
+    name: 'MEDICAMENTOS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  medicamentoso1: {
+    label: 'Edad',
+    name: 'MEDICAMENTOSO1',
+    type: 'text',
+    className: ''
+  },
+  medicamentoso2: {
+    label: 'Cuál/es',
+    name: 'MEDICAMENTOSO2',
+    type: 'text',
+    className: ''
+  },
+  medicamentoso3: {
+    label: 'Motivo',
+    name: 'MEDICAMENTOSO3',
+    type: 'text',
+    className: ''
+  },
+  label5: '<b>COMPOSICIÓN FAMILIAR</b>',
+  label6: 'Padre o tutor o responsable varón',
+  parentescopadre: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOPADRE',
+    type: 'text',
+    className: ''
+  },
+  fecnacpadre: {
+    label: 'Fecha de nacimiento',
+    name: 'FECNACPADRE',
+    type: 'date',
+    className: ''
+  },
+  edadpadre: {
+    label: 'Edad',
+    name: 'EDADPADRE',
+    type: 'text',
+    className: ''
+  },
+  lugnacpadre: {
+    label: 'Lugar de nacimiento (País, Provincia, Ciudad/Pueblo/Paraje)',
+    name: 'LUGNACPADRE',
+    type: 'text',
+    className: ''
+  },
+  resibsaspadre: {
+    label: 'Cuánto hace que reside en Bs. As.?',
+    name: 'RESIBSASPADRE',
+    type: 'text',
+    className: ''
+  },
+  convivepadre: {
+    label: '¿Convive con el niño? (SI/NO y aclarar cuando es sólo en fines de semana)',
+    name: 'CONVIVEPADRE',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label: 'Si' },
+      { value: 1, label: 'Sólo en fines de semana' },
+      { value: 2, label: 'No' }
+    ]
+  },
+  label7: 'Padre o tutor o responsable mujer',
+  parentescomadre: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOMADRE',
+    type: 'text',
+    className: ''
+  },
+  fecnacmadre: {
+    label: 'Fecha de nacimiento',
+    name: 'FECNACMADRE',
+    type: 'date',
+    className: ''
+  },
+  edadmadre: {
+    label: 'Edad',
+    name: 'EDADMADRE',
+    type: 'text',
+    className: ''
+  },
+  lugnacmadre: {
+    label: 'Lugar de nacimiento (País, Provincia, Ciudad/Pueblo/Paraje)',
+    name: 'LUGNACMADRE',
+    type: 'text',
+    className: ''
+  },
+  resibsasmadre: {
+    label: 'Cuánto hace que reside en Bs. As.?',
+    name: 'RESIBSASMADRE',
+    type: 'text',
+    className: ''
+  },
+  convivemadre: {
+    label: '¿Convive con el niño? (SI/NO y aclarar cuando es sólo en fines de semana)',
+    name: 'CONVIVEMADRE',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label: 'Si' },
+      { value: 1, label: 'Sólo en fines de semana' },
+      { value: 2, label: 'No' }
+    ]
+  },
+  label8:'',
+  jefe: {
+    label: 'JEFE DE HOGAR (persona que aporta la cuota mayor del ingreso)',
+    name: 'JEFE',
+    type: 'text',
+    className: ''
+  },
+  perscargojefe: {
+    label: 'PERSONAS A CARGO DEL JEFE DE HOGAR',
+    name: 'PERSCARGOJEFE',
+    type: 'text',
+    className: ''
+  },
+  label9:'<b>Hijos (incluir al niño del caso)</b>',
+  label101:'Hijo 1',
+  generohijo1: {
+    label: 'Género',
+    name: 'GENEROHIJO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadhijo1: {
+    label: 'Edad',
+    name: 'EDADHIJO1',
+    type: 'text',
+    className: ''
+  },
+  asiseduchijo1: {
+    label: 'Asiste a establecimiento educativo',
+    name: 'ASISEDUCHIJO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  escolaridadhijo1: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADHIJO1',
+    type: 'text',
+    className: ''
+  },
+  convivehijo1: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEHIJO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'kid', label: 'Es el niño'}
+    ]
+  },
+  trabajahijo1: {
+    label: 'Trabaja',
+    name: 'TRABAJAHIJO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturahijo1: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAHIJO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label102:'Hijo 2',
+  generohijo2: {
+    label: 'Género',
+    name: 'GENEROHIJO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadhijo2: {
+    label: 'Edad',
+    name: 'EDADHIJO2',
+    type: 'text',
+    className: ''
+  },
+  asiseduchijo2: {
+    label: 'Asiste a establecimiento educativo',
+    name: 'ASISEDUCHIJO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  escolaridadhijo2: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADHIJO2',
+    type: 'text',
+    className: ''
+  },
+  convivehijo2: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEHIJO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'kid', label: 'Es el niño'}
+    ]
+  },
+  trabajahijo2: {
+    label: 'Trabaja',
+    name: 'TRABAJAHIJO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturahijo2: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAHIJO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label103:'Hijo 3',
+  generohijo3: {
+    label: 'Género',
+    name: 'GENEROHIJO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadhijo3: {
+    label: 'Edad',
+    name: 'EDADHIJO3',
+    type: 'text',
+    className: ''
+  },
+  asiseduchijo3: {
+    label: 'Asiste a establecimiento educativo',
+    name: 'ASISEDUCHIJO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  escolaridadhijo3: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADHIJO3',
+    type: 'text',
+    className: ''
+  },
+  convivehijo3: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEHIJO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'kid', label: 'Es el niño'}
+    ]
+  },
+  trabajahijo3: {
+    label: 'Trabaja',
+    name: 'TRABAJAHIJO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturahijo3: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAHIJO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label104:'Hijo 4',
+  generohijo4: {
+    label: 'Género',
+    name: 'GENEROHIJO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadhijo4: {
+    label: 'Edad',
+    name: 'EDADHIJO4',
+    type: 'text',
+    className: ''
+  },
+  asiseduchijo4: {
+    label: 'Asiste a establecimiento educativo',
+    name: 'ASISEDUCHIJO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  escolaridadhijo4: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADHIJO4',
+    type: 'text',
+    className: ''
+  },
+  convivehijo4: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEHIJO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'kid', label: 'Es el niño'}
+    ]
+  },
+  trabajahijo4: {
+    label: 'Trabaja',
+    name: 'TRABAJAHIJO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturahijo4: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAHIJO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label105:'Hijo 5',
+  generohijo5: {
+    label: 'Género',
+    name: 'GENEROHIJO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadhijo5: {
+    label: 'Edad',
+    name: 'EDADHIJO5',
+    type: 'text',
+    className: ''
+  },
+  asiseduchijo5: {
+    label: 'Asiste a establecimiento educativo',
+    name: 'ASISEDUCHIJO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  escolaridadhijo5: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADHIJO5',
+    type: 'text',
+    className: ''
+  },
+  convivehijo5: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEHIJO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'kid', label: 'Es el niño'}
+    ]
+  },
+  trabajahijo5: {
+    label: 'Trabaja',
+    name: 'TRABAJAHIJO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturahijo5: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAHIJO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label106:'Hijo 6',
+  generohijo6: {
+    label: 'Género',
+    name: 'GENEROHIJO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadhijo6: {
+    label: 'Edad',
+    name: 'EDADHIJO6',
+    type: 'text',
+    className: ''
+  },
+  asiseduchijo6: {
+    label: 'Asiste a establecimiento educativo',
+    name: 'ASISEDUCHIJO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  escolaridadhijo6: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADHIJO6',
+    type: 'text',
+    className: ''
+  },
+  convivehijo6: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEHIJO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'kid', label: 'Es el niño'}
+    ]
+  },
+  trabajahijo6: {
+    label: 'Trabaja',
+    name: 'TRABAJAHIJO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturahijo6: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAHIJO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label107:'Hijo 7',
+  generohijo7: {
+    label: 'Género',
+    name: 'GENEROHIJO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadhijo7: {
+    label: 'Edad',
+    name: 'EDADHIJO7',
+    type: 'text',
+    className: ''
+  },
+  asiseduchijo7: {
+    label: 'Asiste a establecimiento educativo',
+    name: 'ASISEDUCHIJO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  escolaridadhijo7: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADHIJO7',
+    type: 'text',
+    className: ''
+  },
+  convivehijo7: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEHIJO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'kid', label: 'Es el niño'}
+    ]
+  },
+  trabajahijo7: {
+    label: 'Trabaja',
+    name: 'TRABAJAHIJO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturahijo7: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAHIJO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label11:'<b>Otros integrantes que viven con el niño</b>',
+  label121:'Integrante 1',
+  parentescootro1: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOOTRO1',
+    type: 'text',
+    className: ''
+  },
+  generootro1: {
+    label: 'Género',
+    name: 'GENEROOTRO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadotro1: {
+    label: 'Edad',
+    name: 'EDADOTRO1',
+    type: 'text',
+    className: ''
+  },
+  escolaridadotro1: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADOTRO1',
+    type: 'text',
+    className: ''
+  },
+  conviveotro1: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEOTRO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  trabajaotro1: {
+    label: 'Trabaja',
+    name: 'TRABAJAOTRO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturaotro1: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAOTRO1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label122:'Integrante 2',
+  parentescootro2: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOOTRO2',
+    type: 'text',
+    className: ''
+  },
+  generootro2: {
+    label: 'Género',
+    name: 'GENEROOTRO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadotro2: {
+    label: 'Edad',
+    name: 'EDADOTRO2',
+    type: 'text',
+    className: ''
+  },
+  escolaridadotro2: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADOTRO2',
+    type: 'text',
+    className: ''
+  },
+  conviveotro2: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEOTRO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  trabajaotro2: {
+    label: 'Trabaja',
+    name: 'TRABAJAOTRO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturaotro2: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAOTRO2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label123:'Integrante 3',
+  parentescootro3: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOOTRO3',
+    type: 'text',
+    className: ''
+  },
+  generootro3: {
+    label: 'Género',
+    name: 'GENEROOTRO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadotro3: {
+    label: 'Edad',
+    name: 'EDADOTRO3',
+    type: 'text',
+    className: ''
+  },
+  escolaridadotro3: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADOTRO3',
+    type: 'text',
+    className: ''
+  },
+  conviveotro3: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEOTRO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  trabajaotro3: {
+    label: 'Trabaja',
+    name: 'TRABAJAOTRO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturaotro3: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAOTRO3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label124:'Integrante 4',
+  parentescootro4: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOOTRO4',
+    type: 'text',
+    className: ''
+  },
+  generootro4: {
+    label: 'Género',
+    name: 'GENEROOTRO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadotro4: {
+    label: 'Edad',
+    name: 'EDADOTRO4',
+    type: 'text',
+    className: ''
+  },
+  escolaridadotro4: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADOTRO4',
+    type: 'text',
+    className: ''
+  },
+  conviveotro4: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEOTRO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  trabajaotro4: {
+    label: 'Trabaja',
+    name: 'TRABAJAOTRO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturaotro4: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAOTRO4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label125:'Integrante 5',
+  parentescootro5: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOOTRO5',
+    type: 'text',
+    className: ''
+  },
+  generootro5: {
+    label: 'Género',
+    name: 'GENEROOTRO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadotro5: {
+    label: 'Edad',
+    name: 'EDADOTRO5',
+    type: 'text',
+    className: ''
+  },
+  escolaridadotro5: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADOTRO5',
+    type: 'text',
+    className: ''
+  },
+  conviveotro5: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEOTRO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  trabajaotro5: {
+    label: 'Trabaja',
+    name: 'TRABAJAOTRO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturaotro5: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAOTRO5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label126:'Integrante 6',
+  parentescootro6: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOOTRO6',
+    type: 'text',
+    className: ''
+  },
+  generootro6: {
+    label: 'Género',
+    name: 'GENEROOTRO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadotro6: {
+    label: 'Edad',
+    name: 'EDADOTRO6',
+    type: 'text',
+    className: ''
+  },
+  escolaridadotro6: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADOTRO6',
+    type: 'text',
+    className: ''
+  },
+  conviveotro6: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEOTRO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  trabajaotro6: {
+    label: 'Trabaja',
+    name: 'TRABAJAOTRO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturaotro6: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAOTRO6',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label127:'Integrante 7',
+  parentescootro7: {
+    label: 'Parentesco / relación',
+    name: 'PARENTESCOOTRO7',
+    type: 'text',
+    className: ''
+  },
+  generootro7: {
+    label: 'Género',
+    name: 'GENEROOTRO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: 'f', label: 'Femenino'},
+      {value: 'm', label: 'Masculino'}
+    ]
+  },
+  edadotro7: {
+    label: 'Edad',
+    name: 'EDADOTRO7',
+    type: 'text',
+    className: ''
+  },
+  escolaridadotro7: {
+    label: 'Máxima escolaridad (ciclo completo) o actual',
+    name: 'ESCOLARIDADOTRO7',
+    type: 'text',
+    className: ''
+  },
+  conviveotro7: {
+    label: 'Convive con el niño',
+    name: 'CONVIVEOTRO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  trabajaotro7: {
+    label: 'Trabaja',
+    name: 'TRABAJAOTRO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  coberturaotro7: {
+    label: 'Tiene cobertura médica',
+    name: 'COBERTURAOTRO7',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'},
+      {value: 'ns', label: 'No sabe'}
+    ]
+  },
+  label13: '<b>EDUCACIÓN</b>',
+  label14: 'Máximo nivel de estudios alcanzados por padre, madre, tutor legal o responsable a cargo habiendo estado en contacto con el niño (incluye padres separados) durante los primeros cinco años de vida del niño/a. En caso de verificarse más de una pareja (padre o madre), consignar la información de la persona que más tiempo haya estado con el niño/a.',
+  estupad: {
+    label: 'Estudios del padre',
+    name: 'ESTUPAD',
+    type: 'select',
+    className: '',
+    options: estudios
+  },
+  cursoestupad: {
+    label: 'Número de curso (grado o año)',
+    name: 'CURSOESTUPAD',
+    type: 'text',
+    className: ''
+  },
+  estumad: {
+    label: 'Estudios de la madre',
+    name: 'ESTUMAD',
+    type: 'select',
+    className: '',
+    options: estudios
+  },
+  cursoestumad: {
+    label: 'Número de curso (grado o año)',
+    name: 'CURSOESTUMAD',
+    type: 'text',
+    className: ''
+  },
+  label15: '<b>OCUPACIÓN</b>',
+  label16: 'Ocupación e ingreso de padre, madre, tutor legal o responsables. Consignar el total del ingreso al grupo (suma de ingresos del grupo familiar y otros integrantes, como por ejemplo padres separa- dos, abuelos, tíos). Aclarar cuando un ingreso corresponde a la percepción de un subsdio y su tipo (Jefas y Jefes, Alimentación, Vivienda, etc.).',
+  label17: 'Padre o tutor o responsable varón',
+  tareapadre: {
+    label: 'Descripción de la tarea que realiza',
+    name: 'TAREAPADRE',
+    type: 'text',
+    className: ''
+  },
+  cambiotrabpadre: {
+    label: '¿Cambió de trabajo en los últimos 6 meses?',
+    name: 'CAMBIOTRABPADRE',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiopadre: {
+    label: '¿Es titular de algún subsidio o plan social?',
+    name: 'SUBSIDIOPADRE',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiopadrec: {
+    label: '¿Cuál?',
+    name: 'SUBSIDIOPADREC',
+    type: 'select',
+    className: '',
+    options: subsidios
+  },
+  label18: 'Madre o tutora o responsable mujer',
+  tareamadre: {
+    label: 'Descripción de la tarea que realiza',
+    name: 'TAREAMADRE',
+    type: 'text',
+    className: ''
+  },
+  cambiotrabmadre: {
+    label: '¿Cambió de trabajo en los últimos 6 meses?',
+    name: 'CAMBIOTRABMADRE',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiomadre: {
+    label: '¿Es titular de algún subsidio o plan social?',
+    name: 'SUBSIDIOMADRE',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiomadrec: {
+    label: '¿Cuál?',
+    name: 'SUBSIDIOMADREC',
+    type: 'select',
+    className: '',
+    options: subsidios
+  },
+  label19: 'Otros integrantes que aportan ingresos',
+  label201: 'Integrante 1',
+  parentescointegrante1: {
+    label: 'Parentesco / relación con el niño',
+    name: 'PARENTESCOINTEGRANTE1',
+    type: 'text',
+    className: ''
+  },
+  subsidiointegrante1: {
+    label: '¿Es titular de algún subsidio o plan social?',
+    name: 'SUBSIDIOINTEGRANTE1',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiointegrante1c: {
+    label: '¿Cuál?',
+    name: 'SUBSIDIOINTEGRANTE1C',
+    type: 'select',
+    className: '',
+    options: subsidios
+  },
+  label202: 'Integrante 2',
+  parentescointegrante2: {
+    label: 'Parentesco / relación con el niño',
+    name: 'PARENTESCOINTEGRANTE2',
+    type: 'text',
+    className: ''
+  },
+  subsidiointegrante2: {
+    label: '¿Es titular de algún subsidio o plan social?',
+    name: 'SUBSIDIOINTEGRANTE2',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiointegrante2c: {
+    label: '¿Cuál?',
+    name: 'SUBSIDIOINTEGRANTE2C',
+    type: 'select',
+    className: '',
+    options: subsidios
+  },
+  label203: 'Integrante 3',
+  parentescointegrante3: {
+    label: 'Parentesco / relación con el niño',
+    name: 'PARENTESCOINTEGRANTE3',
+    type: 'text',
+    className: ''
+  },
+  subsidiointegrante3: {
+    label: '¿Es titular de algún subsidio o plan social?',
+    name: 'SUBSIDIOINTEGRANTE3',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiointegrante3c: {
+    label: '¿Cuál?',
+    name: 'SUBSIDIOINTEGRANTE3C',
+    type: 'select',
+    className: '',
+    options: subsidios
+  },
+  label204: 'Integrante 4',
+  parentescointegrante4: {
+    label: 'Parentesco / relación con el niño',
+    name: 'PARENTESCOINTEGRANTE4',
+    type: 'text',
+    className: ''
+  },
+  subsidiointegrante4: {
+    label: '¿Es titular de algún subsidio o plan social?',
+    name: 'SUBSIDIOINTEGRANTE4',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiointegrante4c: {
+    label: '¿Cuál?',
+    name: 'SUBSIDIOINTEGRANTE4C',
+    type: 'select',
+    className: '',
+    options: subsidios
+  },
+  label205: 'Integrante 5',
+  parentescointegrante5: {
+    label: 'Parentesco / relación con el niño',
+    name: 'PARENTESCOINTEGRANTE5',
+    type: 'text',
+    className: ''
+  },
+  subsidiointegrante5: {
+    label: '¿Es titular de algún subsidio o plan social?',
+    name: 'SUBSIDIOINTEGRANTE5',
+    type: 'select',
+    className: '',
+    options: [
+      {value: '1', label: 'Si'},
+      {value: '0', label: 'No'}
+    ]
+  },
+  subsidiointegrante5c: {
+    label: '¿Cuál?',
+    name: 'SUBSIDIOINTEGRANTE5C',
+    type: 'select',
+    className: '',
+    options: subsidios
+  },
+  label21: '¿En los últimos 6 meses, los ingresos del hogar alcanzan para cubrir las siguientes necesidades?',
+  ingalim: {
+    label: 'Alimentos (3/4 comidas diarias)',
+    name: 'INGALIM',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  ingropa: {
+    label: 'Ropa (reposición)',
+    name: 'INGROPA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  ingsalud: {
+    label: 'Salud (médico, remedios)',
+    name: 'INGSALUD',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  ingeduc: {
+    label: 'Educación (materiales, transporte y útiles)',
+    name: 'INGEDUC',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  ingbienes: {
+    label: 'Bienes/electrodomésticos NO básicos (TV, microondas, PC, MP3. No se incluyen heladera, cocina, calefón o termotanque)',
+    name: 'INGBIENES',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  label22: '<b>CARACTERÍSTICAS HABITACIONALES DEL HOGAR</b>',
+  barrio: {
+    label: 'Barrio',
+    name: 'BARRIO',
+    type: 'text',
+    className: ''
+  },
+  pagaimp: {
+    label: 'Paga el impuesto municipal (ABL)',
+    name: 'PAGAIMP',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  tipoviv: {
+    label: 'Tipo de vivienda',
+    name: 'TIPOVIV',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label: 'Casa'},
+      { value: 1, label: 'Departamento'},
+      { value: 2, label: 'Rancho o casilla (vivienda precaria con paredes y techos construidos en distintos momentos con diferentes materiales, insegura (estructura, servicios), piso de tierra)'},
+      { value: 3, label: 'Pieza de inquilinato'},
+      { value: 4, label: 'Pieza en hotel/pensión'},
+      { value: 5, label: 'Local (no construido para habitar)'},
+      { value: 6, label: 'Vivienda móvil (autos, casas rodantes, colectivos, etc.)'},
+      { value: 7, label: 'Calle'}
+    ]
+  },
+  pisos: {
+    label: 'Pisos interiores',
+    name: 'PISOS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 3, label:"Madera, baldoza, cerámica, alfombra o cualquier otro revestimiento"},
+      { value: 1, label:"Cemento, ladrillo fijo"},
+      { value: 0, label:"Tierra, ladrillo suelto"}
+    ]
+  },
+  techo: {
+    label: 'Techo (cubierta exterior, lo que se ve estando fuera de la casa)',
+    name: 'TECHO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 3, label:"Cub. asfáltica, membrana, baldosa, losa, pizarra, teja"},
+      { value: 1, label:"Chapa de metal, de fibrocemento, plástica, de cartón"},
+      { value: 0, label:"Caña, tabla"}
+    ]
+  },
+  paredext: {
+    label: 'Paredes exteriores (lo que se ve estando fuera de la casa)',
+    name: 'PAREDEXT',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 3, label:"Mamposteria, ladrillo, piedra, hormigón, bloques de material unidos con cemento"},
+      { value: 2, label:"Madera"},
+      { value: 1, label:"Adobe, bloques de material superpuestos sin unión con cemento, chapa de metal o fibrocemento"},
+      { value: 0, label:"Chorizo, cartón, desechos"}
+    ]
+  },
+  agua: {
+    label: 'Provisión de agua',
+    name: 'AGUA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 4, label:"De red pública con cañerías dentro de la vivienda"},
+      { value: 3, label:"De red pública con cañerías fuera de la vivienda pero dentro del terreno"},
+      { value: 2, label:"Bomba a motor o manual con cañerías dentro de la vivienda"},
+      { value: 1, label:"Bomba a motor o manual con cañerías fuera de la vivienda pero dentro del terreno"},
+      { value: 0, label:"Agua de pozo, lluvia, río, canal, cisterna precaria (fuera de la vivienda o el terreno)"}
+    ]
+  },
+  tienenbano: {
+    label: 'Tienen baño',
+    name: 'TIENENBAÑO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  tienenbanoex: {
+    label: 'El baño es de uso exclusivo del hogar',
+    name: 'TIENENBAÑOEX',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  tienenbanocompmisma: {
+    label: 'Lo comparten con otro/s hogar/es de la misma vivienda',
+    name: 'TIENENBAÑOCOMPMISMA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  tienenbanocompotra: {
+    label: 'Lo comparten con otra/s vivienda/s',
+    name: 'TIENENBAÑOCOMPOTRA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  bano: {
+    label: 'Baño',
+    name: 'BAÑO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 4, label:"Baño propio con inodoro CON sistema de descarga (cadena, botón o mochila)"},
+      { value: 3, label:"Baño propio con inodoro SIN sistema de descarga (uso de balde o manguera)"},
+      { value: 2, label:"Baño propio SIN inodoro NI sistema de descarga (letrina)"},
+      { value: 1, label:"Baño compartido (Baño que utiliza más de un grupo familiar y que no comparten gastos)"},
+      { value: 0, label:"Sin baño (pozo o agujero)"}
+    ]
+  },
+  propviv: {
+    label: 'Propiedad de la vivienda',
+    name: 'PROPVIV',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 5, label:"Propietario del terreno y de la vivienda (Incluye propietario/s propiamente dicho/s o sus familiares)"},
+      { value: 4, label:"Alquila (inquilino)"},
+      { value: 3, label:"Prestada (El propietario no habita la vivienda)"},
+      { value: 2, label:"Casero"},
+      { value: 1, label:"Intrusada (Viviendas o terrenos tomados, el propietario desconoce o no autoriza la habitación)"},
+      { value: 0, label:"Cedida (El propietario da la vivienda entrega su escritura, sin recibir alquiler o dinero de venta)"}
+    ]
+  },
+  label23: '<b>HACINAMIENTO</b>',
+  cantpers: {
+    label: 'Cantidad de personas que habitan la vivienda',
+    name: 'CANTPERS',
+    type: 'text',
+    className: ''
+  },
+  cantamb: {
+    label: 'Cantidad de habitaciones (ambientes) sin contar baño ni cocina',
+    name: 'CANTAMB',
+    type: 'text',
+    className: ''
+  },
+  ambdormir: {
+    label: 'Cantidad de habitaciones utlizados para dormir (incluyendo baño y cocina)',
+    name: 'AMBDORMIR',
+    type: 'text',
+    className: ''
+  },
+  label24: '<b>ACCESO A SERVICIOS</b><br/>Consignar si tiene (SI) o no (NO) cada uno de los servicios detallados a través de empresas públicas o privadas.',
+  acceagua: {
+    label: 'Agua',
+    name: 'ACCEAGUA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  acceluz: {
+    label: 'Luz',
+    name: 'ACCELUZ',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  accegas: {
+    label: 'Gas de red',
+    name: 'ACCEGAS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  accegastubo: {
+    label: 'Gas de tubo / garrafa',
+    name: 'ACCEGASTUBO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  accestelef: {
+    label: 'Teléfono fijo',
+    name: 'ACCESTELEF',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  accestelefcel: {
+    label: 'Teléfono celular',
+    name: 'ACCESTELEFCEL',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  conexinter: {
+    label: 'Conexión a internet',
+    name: 'CONEXINTER',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  televiscabsat: {
+    label: 'Conexión a TV de cable o satelital',
+    name: 'TELEVISCAB-SAT',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  label25: '<b>ESTÍMULO A LA EDUCACIÓN EN EL HOGAR</b>',
+  libros: {
+    label: '¿Qué cantidad de libros tienen en el hogar?',
+    name: 'LIBROS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 3, label:"Menos de 10"},
+      { value: 2, label:"Entre 10 y 50"},
+      { value: 1, label:"Entre 51 y 100"},
+      { value: 0, label:"Más de 100"}
+    ]
+  },
+  leenlibro: {
+    label: '¿Con qué frecuencia leen un libro al niño?',
+    name: 'LEENLIBRO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 3, label:"Menos de 1 vez por semana"},
+      { value: 2, label:"1 vez por semana"},
+      { value: 1, label:"3 veces por semana"},
+      { value: 0, label:"Todas las noches"}
+    ]
+  },
+  librovisible: {
+    label: 'En el hogar hay visibles al menos 10 libros',
+    name: 'LIBROVISIBLE',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  periodico: {
+    label: 'La familia compra y lee diariamente el diario',
+    name: 'PERIODICO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  revistas: {
+    label: 'La familia esta suscripta o compra periódicamente al menos una revista',
+    name: 'REVISTAS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  label26: '<b>ACCESO A LA INFORMACION</b><br/>',
+  television: {
+    label: 'Cuentan con televisión en el hogar?',
+    name: 'TELEVISION',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  televisionf: {
+    label: 'Con qué frecuencia usa el niño la televisión?',
+    name: 'TELEVISIONF',
+    type: 'select',
+    className: '',
+    options: frecuenciaInfo
+  },
+  televisionq: {
+    label: 'Cuántas horas por día?',
+    name: 'TELEVISIONF',
+    type: 'text',
+    className: ''
+  },
+  label271: '',
+  radio: {
+    label: 'Cuentan con radio en el hogar?',
+    name: 'RADIO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  radiof: {
+    label: 'Con qué frecuencia usa el niño la radio?',
+    name: 'RADIOF',
+    type: 'select',
+    className: '',
+    options: frecuenciaInfo
+  },
+  radioq: {
+    label: 'Cuántas horas por día?',
+    name: 'RADIOF',
+    type: 'text',
+    className: ''
+  },
+  label272: '',
+  computadora: {
+    label: 'Cuentan con computadora en el hogar?',
+    name: 'COMPUTADORA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  computadoraf: {
+    label: 'Con qué frecuencia usa el niño la computadora?',
+    name: 'COMPUTADORAF',
+    type: 'select',
+    className: '',
+    options: frecuenciaInfo
+  },
+  computadoraq: {
+    label: 'Cuántas horas por día?',
+    name: 'COMPUTADORAF',
+    type: 'text',
+    className: ''
+  },
+  label273: '',
+  internet: {
+    label: 'Cuentan con internet en el hogar?',
+    name: 'INTERNET',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"Si"},
+      { value: 1, label:"No"}
+    ]
+  },
+  internetf: {
+    label: 'Con qué frecuencia usa el niño internet?',
+    name: 'INTERNETF',
+    type: 'select',
+    className: '',
+    options: frecuenciaInfo
+  },
+  internetq: {
+    label: 'Cuántas horas por día?',
+    name: 'INTERNETF',
+    type: 'text',
+    className: ''
+  },
+  label28: '<b>CONTROLES MÉDICOS</b>',
+  conped: {
+    label: 'En el último año, el/la niño/a ¿ha concurrido a controles pediátricos?',
+    name: 'CONPED',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  frconped: {
+    label: '¿Con qué frecuencia (meses) el/la niño/a concurre a un control con el pediatra?',
+    name: 'FRCONPED',
+    type: 'text',
+    className: ''
+  },
+  ultcons: {
+    label: '¿Cuándo fue la última consulta?',
+    name: 'ULTCONS',
+    type: 'date',
+    className: ''
+  },
+  estudmed: {
+    label: '¿Se le indicaron estudios médicos?',
+    name: 'ESTUDMED',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  analisis: {
+    label: '¿Se ha realizado el/la niño/a un análisis de sangre?',
+    name: 'ANALISIS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  fecanalisis: {
+    label: '¿Cuándo se realizó el último análisis de sangre?',
+    name: 'FECANALISIS',
+    type: 'date',
+    className: ''
+  },
+  motivoana: {
+    label: '¿Por qué motivo se le indicó hacerse el análisis de sangre?',
+    name: 'MOTIVOANA',
+    type: 'text',
+    className: ''
+  },
+  label29: '<b>ALIMENTACION</b>',
+  label30: 'FRECUENCIA DE CONSUMO DE ALIMENTOS<br/><i>En las últimas 24 horas el/la niño/a…</i>',
+  concurrio: {
+    label: '¿Concurrió su hijo/a al jardín ayer?',
+    name: 'CONCURRIO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  colacion1: {
+    label: '¿Consumió algún alimento antes del desayuno?',
+    name: 'COLACION1',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  desayuno: {
+    label: '¿Desayunó?',
+    name: 'DESAYUNO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  colacion2: {
+    label: '¿Consumió algún alimento entre el desayuno y el almuerzo?',
+    name: 'COLACION2',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  almuerzo: {
+    label: '¿Almorzó?',
+    name: 'ALMUERZO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  colacion3: {
+    label: '¿Consumió algún alimento entre el almuerzo y la cena?',
+    name: 'COLACION3',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  cena: {
+    label: '¿Cenó?',
+    name: 'CENA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  colacion4: {
+    label: '¿Consumió algún alimento despues de la cena?',
+    name: 'COLACION4',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  label31: 'CONSUMO POR GRUPOS DE ALIMENTOS<br/><i>En las últimas 24 horas el/la niño/a…</i>',
+  cereal: {
+    label: '¿Consumió cereales o granos (maíz, arroz, pan)?',
+    name: 'CEREAL',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  tuberculos: {
+    label: '¿Consumió raices o tuberculos (papa, mandioca, cebolla)?',
+    name: 'TUBERCULOS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  legumbres: {
+    label: '¿Consumió legumbres (lentejas, porotos, guisantes) o nueces?',
+    name: 'LEGUMBRES',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  lacteos: {
+    label: '¿Consumió leche o productos lácteos (leche, yogur, queso)?',
+    name: 'LACTEOS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  huevos: {
+    label: '¿Consumió huevos?',
+    name: 'HUEVOS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  carne: {
+    label: '¿Consumió carne?',
+    name: 'CARNE',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  pollo: {
+    label: '¿Consumió pollo?',
+    name: 'POLLO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  pescado: {
+    label: '¿Consumió pescado o mariscos?',
+    name: 'PESCADO',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  aceites: {
+    label: '¿Consumió aceite o grasa (manteca, margarina, aceite vegetal)?',
+    name: 'ACEITES',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  azucar: {
+    label: '¿Consumió azúcar o miel?',
+    name: 'AZUCAR',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  frutas: {
+    label: '¿Consumió frutas?',
+    name: 'FRUTAS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  verduras: {
+    label: '¿Consumió verduras?',
+    name: 'VERDURAS',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  label32: '<b>ACTIVIDAD FÍSICA</b>',
+  actfisica: {
+    label: 'El/la niño/a ¿realiza alguna actividad física o deporte?',
+    name: 'ACTFISICA',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 0, label:"No"},
+      { value: 1, label:"Si"}
+    ]
+  },
+  tipoact: {
+    label: '¿Qué tipo de actividad física o deporte realiza?',
+    name: 'TIPOACT',
+    type: 'text',
+    className: ''
+  },
+  tiempoact: {
+    label: '¿Desde hace cuánto tiempo (meses) la realiza?',
+    name: 'TIEMPOACT',
+    type: 'text',
+    className: ''
+  },
+  diasact: {
+    label: '¿Cuántos días en la semana la realiza?',
+    name: 'DIASACT',
+    type: 'text',
+    className: ''
+  },
+  minact: {
+    label: '¿Por cuánto tiempo realiza la actividad (por día)?',
+    name: 'MINACT',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 1, label: 'Menos de 30 minutos'},
+      { value: 2, label: 'Entre 30 y 60 minutos'},
+      { value: 3, label: 'Más de 60 minutos'}
+    ]
+  },
+  ausenciact: {
+    label: '¿Cuántos días por mes suele no concurrir a realizar la actividad?',
+    name: 'AUSENCIACT',
+    type: 'text',
+    className: ''
+  },
+  tiemposeden: {
+    label: '¿Cuánto tiempo el/la niño/a permanece sentado en un día típico (mirando tele, en el jardín, con amigos o familia)?',
+    name: 'TIEMPOSEDEN',
+    type: 'select',
+    className: '',
+    options: [
+      { value: 1, label: 'Menos de 1 hora por día'},
+      { value: 2, label: '1 a 2 horas por día'},
+      { value: 3, label: '3 a 4 horas por día'},
+      { value: 4, label: '5 a 7 horas por día'},
+      { value: 5, label: 'Más de 7 horas por día'}
+    ]
+  },
+};
+//
+// ^(\d)\s(\w*)\s(.*)\s*
+// ^\d+\s(\w*)\s(.*\?)
+//
+// 1	ACTFISICA	El/la niño/a ¿realiza alguna actividad física o deporte?
+//
+// 2	TIPOACT	¿Qué tipo de actividad física o deporte realiza?
+// 3	TIEMPOACT	¿Desde hace cuánto tiempo la realiza?
+// 4	DIASACT	¿Cuántos días en la semana la realiza?
+// 5	MINACT	¿Por cuánto tiempo realiza la actividad (por día)?
+//
+//
+// 6	AUSENCIACT	¿Cuántos días por mes suele no concurrir a realizar la actividad?
+// 7	TIEMPOSEDEN	¿Cuánto tiempo el/la niño/a permanece sentado en un día típico (mirando tele, en el jardín, con amigos o familia)?
+//
+//
+//
+// item$1: {
+//   label: '$2',
+//   name: 'ITEM$1',
+//   type: 'select',
+//   className: '',
+//   options: timingSi1
+// },
+//
+//
+// $2: {
+//   label: '$1$2$3',
+//   name: '$2',
+//   type: 'radio',
+//   className: '',
+//   options: [
+//     { value: 0, label:"No"},
+//     { value: 1, label:"Si"}
+//   ]
+// },
+// $2o1: {
+//   label: 'Edad',
+//   name: '$2O1',
+//   type: 'text',
+//   className: ''
+// },
+// $2o2: {
+//   label: 'Duración de internación',
+//   name: '$2O2',
+//   type: 'text',
+//   className: ''
+// },
+// $2o3: {
+//   label: 'Motivo',
+//   name: '$2O3',
+//   type: 'text',
+//   className: ''
+// },
+//
+//
+// label10$1:'Hijo $1',
+// generohijo$1: {
+//   label: 'Género',
+//   name: 'GENEROHIJO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: 'f', label: 'Femenino'},
+//     {value: 'm', label: 'Masculino'}
+//   ]
+// },
+// edadhijo$1: {
+//   label: 'Edad',
+//   name: 'EDADHIJO$1',
+//   type: 'text',
+//   className: ''
+// },
+// asiseduchijo$1: {
+//   label: 'Asiste a establecimiento educativo',
+//   name: 'ASISEDUCHIJO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'}
+//   ]
+// },
+// escolaridadhijo$1: {
+//   label: 'Máxima escolaridad (ciclo completo) o actual',
+//   name: 'ESCOLARIDADHIJO$1',
+//   type: 'text',
+//   className: ''
+// },
+// convivehijo$1: {
+//   label: 'Convive con el niño',
+//   name: 'CONVIVEHIJO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'},
+//     {value: 'kid', label: 'Es el niño'}
+//   ]
+// },
+// trabajahijo$1: {
+//   label: 'Trabaja',
+//   name: 'TRABAJAHIJO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'}
+//   ]
+// },
+// coberturahijo$1: {
+//   label: 'Tiene cobertura médica',
+//   name: 'COBERTURAHIJO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'},
+//     {value: 'ns', label: 'No sabe'}
+//   ]
+// },
+//
+// label12$1:'Integrante $1',
+// parentescootro$1: {
+//   label: 'Parentesco / relación',
+//   name: 'PARENTESCOOTRO$1',
+//   type: 'text',
+//   className: ''
+// },
+// generootro$1: {
+//   label: 'Género',
+//   name: 'GENEROOTRO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: 'f', label: 'Femenino'},
+//     {value: 'm', label: 'Masculino'}
+//   ]
+// },
+// edadotro$1: {
+//   label: 'Edad',
+//   name: 'EDADOTRO$1',
+//   type: 'text',
+//   className: ''
+// },
+// escolaridadotro$1: {
+//   label: 'Máxima escolaridad (ciclo completo) o actual',
+//   name: 'ESCOLARIDADOTRO$1',
+//   type: 'text',
+//   className: ''
+// },
+// conviveotro$1: {
+//   label: 'Convive con el niño',
+//   name: 'CONVIVEOTRO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'}
+//   ]
+// },
+// trabajaotro$1: {
+//   label: 'Trabaja',
+//   name: 'TRABAJAOTRO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'}
+//   ]
+// },
+// coberturaotro$1: {
+//   label: 'Tiene cobertura médica',
+//   name: 'COBERTURAOTRO$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'},
+//     {value: 'ns', label: 'No sabe'}
+//   ]
+// },
+//
+//
+// label20$1: 'Integrante $1',
+// parentescointegrante$1: {
+//   label: 'Parentesco / relación con el niño',
+//   name: 'PARENTESCOINTEGRANTE$1',
+//   type: 'text',
+//   className: ''
+// },
+// subsidiointegrante$1: {
+//   label: '¿Es titular de algún subsidio o plan social?',
+//   name: 'SUBSIDIOINTEGRANTE$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     {value: '1', label: 'Si'},
+//     {value: '0', label: 'No'}
+//   ]
+// },
+// subsidiointegrante$1c: {
+//   label: '¿Cuál?',
+//   name: 'SUBSIDIOINTEGRANTE$1C',
+//   type: 'select',
+//   className: '',
+//   options: subsidios
+// },
+//
+//
+// $1: {
+//   label: 'Cuentan con $1 en el hogar?',
+//   name: '$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     { value: 0, label:"Si"},
+//     { value: 1, label:"No"}
+//   ]
+// },
+// $1f: {
+//   label: 'Con qué frecuencia usa el niño la $1?',
+//   name: '$1F',
+//   type: 'select',
+//   className: '',
+//   options: frecuenciaInfo
+// },
+// $1q: {
+//   label: 'Cuántas horas por día?',
+//   name: '$1F',
+//   type: 'text',
+//   className: ''
+// },
+//
+//
+// $1: {
+//   label: '$2',
+//   name: '$1',
+//   type: 'select',
+//   className: '',
+//   options: [
+//     { value: 0, label:"No"},
+//     { value: 1, label:"Si"}
+//   ]
+// },
+      /*ScriptsPlaceholder*/
+var commonVariables = {
+  caso: {
+    label: 'Número de caso',
+    name: 'CASO',
+    type: 'index',
+    className: ' red'
+  },
+  nombre: {
+    label: 'Apellido y nombre',
+    name: 'NOMBRE',
+    type: 'text',
+    className: ' red'
+  },
+  escuela: {
+    label: 'Escuela',
+    name: 'ESCUELA',
+    type: 'text',
+    className: ' red'
+  },
+  turno: {
+    label: 'Turno',
+    name: 'TURNO',
+    type: 'select',
+    className: ' red',
+    options: [
+      {value: '0', label: 'Mañana'},
+      {value: '1', label: 'Tarde'},
+      {value: '2', label: 'Jornada completa'}
+    ]
+  },
+  sala: {
+    label: 'Sala',
+    name: 'SALA',
+    type: 'text',
+    className: ' red'
+  },
+  genero: {
+    label: 'Género',
+    name: 'GENERO',
+    type: 'select',
+    className: ' red',
+    options: [
+      {value: '0', label: 'Femenino'},
+      {value: '1', label: 'Masculino'}
+    ]
+  },
+  fecnac: {
+    label: 'Fecha de nacimiento',
+    name: 'FECNAC',
+    type: 'date',
+    className: ' red'
+  }
+};
+var getBackupData = function() {
+	var d = localStorage.getItem(getProject());
+  return d;
+}
+var getData = function(k) {
+	var d = localStorage.getItem(k);
+  return d && JSON.parse(d);
+}
+var setData = function(k, obj) {
+	var js = JSON.stringify(obj);
+	console.log('storing json', js.length);
+  localStorage.setItem(k, js);
+}
+var setProject = function(p) {
+  localStorage.setItem('currentProject', p);
+	return getProject();
+}
+var getProject = function() {
+	return localStorage.getItem('currentProject');
+}
+var getProjects = function() {
+	var ps = [];
+	for (var k in localStorage) {
+		if (localStorage.hasOwnProperty(k) && !(/currentCase|currentProject/.test(k))) ps.push(k);
+	}
+	return ps;
+}
+var setCase = function(c) {
+  localStorage.setItem('currentCase', c);
+	return getCase();
+}
+var getCase = function() {
+	return localStorage.getItem('currentCase');
+}
+var fetchCase = function(n) {
+  var arr = getData(getProject());
+	if(!arr) return;
+  for(var i=0, it; it = arr[i++];)
+    if (it.common['caso'] == n) return it;
+}
+var loadCaseValues = function(n) {
+	if(n === undefined) n = loadCase();
+  var data = fetchCase(n);
+	if(!data || data && !data.common) {
+		// initialize();
+		setInputValue('caso', n);
+		saveCaseValues();
+		return;
+	}
+  for(var k in data.common)
+    setInputValue(k, data.common[k]);
+	if(data[formName])
+	  for(var j in data[formName])
+	    setInputValue(j, data[formName][j]);
+}
+var saveCaseValues = function() {
+  var proj = getProject(),
+    arr = getData(proj) || [],
+    n = getInputValue('caso'),
+		found = false,
+		data = {common:{}};
+  for(var i=0, it; it = arr[i++];) {
+		if (it.common['caso'] == n) {
+			data = it;
+			found = true;
+			break;
+		}
+	}
+	if(!data[formName]) data[formName] = {};
+	for(var k in variables)
+		if(getType(k) != 'label') data[formName][k] = getInputValue(k);
+	for(var j in commonVariables)
+		data.common[j] = getInputValue(j);
+	data[formName].observ = getInputValue('observ');
+	data.common['guardado'] = new Date().getTime();
+	if(!found) arr.push(data);
+  setData(proj, arr);
+}
+var getType = function(k) {
+	var item = commonVariables[k] || variables[k];
+	if(typeof item === "string" || item === null) return 'label';
+	if(k == 'observ') return 'text';
+	return item && item.type;
+}
+var setInputValue = function(k,v) {
+	// console.log(k,v);
+	if(!k || k == 'guardado') return;
+	if(v === undefined) v = '';
+  var el = document.getElementById(k);
+  if(getType(k) == 'select') {
+		for(var i=0,it;it=el.children[i++];)
+			if(it.dataset.value == v)
+				return el.value = it.value;
+		return;
+	}
+  if(getType(k) == 'radio') {
+    for(var i=1,it;it=el.children[i++];)
+      if(it.lastChild.lastChild.dataset.value == v)
+        return it.lastChild.lastChild.checked = true;
+      else it.lastChild.lastChild.checked = false;
+		return;
+  }
+  if(getType(k) == 'text' || getType(k) == 'date' || getType(k) == 'number' || getType(k) == 'index')
+  	return el.value = v;
+	console.log('cannot set', k,v, getType(k));
+}
+var getInputValue = function(k) {
+  if(!variables[k] && !commonVariables[k] && (k != 'observ')) return null;
+  var el = document.getElementById(k);
+  if(getType(k) == 'select')
+    return el.selectedOptions[0].dataset.value;
+  if(getType(k) == 'radio') {
+    for(var i=1,it;it=el.children[i++];)
+      if(it.lastChild.lastChild.checked)
+        return it.lastChild.lastChild.dataset.value;
+    return '';
+  }
+  if(getType(k) == 'text' || getType(k) == 'date' || getType(k) == 'number' || getType(k) == 'index')
+  	return el.value;
+	console.log('Cannot get value ', k);
+}
+var importCommon = function(d) {
+	var proj = getProject(),
+	arr = getData(proj) || [],
+	found = false,
+	data = {common:{}};
+	for(var i=0, it; it = arr[i++];)
+		if(it.common['caso'] === d['caso']) {
+			data = it;
+			found = true;
+			break;
+		}
+	for(var j in commonVariables)
+		data.common[j] = d[j] || data.common[j];
+	if(!found) arr.push(data);
+	setData(proj, arr);
+}
+
+var importData = function(d) {
+  var proj = getProject(),
+    arr = getData(proj) || [],
+		found = false;
+  for(var i=0; i < arr.length; i++) {
+		if (arr[i].common['caso'] == d.common['caso']) {
+			if(d.common['guardado']||0 >= (arr[i].common['guardado']||0))
+				arr[i] = d;
+			else
+				return;
+			found = true;
+			break;
+		}
+	}
+	if(!found) arr.push(d);
+  setData(proj, arr);
+}
+var getOptions = function(options) {
+  var list = '<option value="" data-value="">N/C</value>', i = 0;
+  options.forEach(function(item) {
+    list += '<option value="' + i++ + '"data-value="' +
+      item.value + '">' + item.label +
+      ' ('+item.value+')'+'</option>'
+  });
+  return list;
+};
+var getRadios = function(id, options) {
+  var list = '', i = 0;
+  options.forEach(function(item) {
+    list += '<div><label>' + item.label +' ('+item.value+')'+
+      '<input type="radio" name="radio'+id+'" value="' + i++ + '"data-value="' +
+      item.value + '" onchange="handleChange()"/></label></div>';
+  });
+  return list;
+};
+var createInput = function(k, item, index) {
+	var newField = '';
+	if(k=='title') {
+		newField += '<h2>'+item+'</h2>';
+	} else if(k=='startCount') {
+    // start item count
+	} else if(k=='common') {
+    for(var j in commonVariables) newField += createInput(j,commonVariables[j]);
+  } else if(/^title[0-9]*/.test(k)) {
+		newField += '<h2>'+item+'</h2>';
+	} else if(/^label[0-9]*/.test(k)) {
+		newField += '<p>'+item+'</p>';
+	} else {
+		newField += '<div class="inputBlock'+
+			(item.className?' '+item.className+'"':'"')+
+			'><label for="'+k+'">' + (index > 0?'<strong>'+ index + '</strong> ' : '') +item.label+'</label>'
+		if(item.type == 'select')
+			newField += '<select id="'+k+'" onchange="handleChange()">'+
+				getOptions(item.options)+'</select>';
+		if(k == 'caso')
+			newField += '<input type="button" id="'+k+'" onclick="loadCase()"/>';
+		if(item.type == 'text')
+			newField += '<input type="text" placeholder="'+item.label+
+				'" id="'+k+'" onchange="handleChange()"/>';
+		if(item.type == 'textarea')
+			newField += '<textarea rows="8" placeholder="'+item.label+
+				'" id="'+k+'" onchange="handleChange()"></textarea>';
+		if(item.type == 'date')
+			newField += '<input type="date" placeholder="'+item.label+
+				'" id="'+k+'" onchange="handleChange()"/>';
+		if(item.type == 'radio')
+			newField = newField.slice(0,-(22+k.length+item.label.length+(index > 0?'<strong>'+ index + '</strong> ' : '').length))+
+				'<fieldset id="'+k+'" class="radios'+item.options.length+'""><legend>'+(index > 0?'<strong>'+ index + '</strong> ' : '')+item.label+'</legend>'+
+				getRadios(k,item.options)+'</fieldset>';
+		newField += '</div>';
+	}
+	return newField;
+}
+var initialize = function() {
+	var c, form = '', i = 0;
+  for(var k in variables) {
+    form += createInput(k,variables[k],i);
+    if((i && getType(k) != 'label')||(!i && k === 'startCount')) i++;
+  }
+  form += createInput('observ',{type:'textarea', label:'Observaciones sobre la entrevista', name:'OBSERV'},i);
+  document.getElementById('form').innerHTML = form;
+  if(!(c = getProject())) c = loadProject();
+  document.getElementById('projectButton').innerHTML = 'Proyecto: ' + c;
+  if(c && !getData(c)) loadCase();
+  else loadCaseValues(getCase());
+  document.getElementById('menu').className = 'hidden';
+};
+var copyToClipboard = function() {
+  document.execCommand('copy');
+};
+
+// To Do:
+var loadCase = function() {
+  // Show prompt with input for case number
+	var c = window.prompt("Ingresar Caso", getCase() || ''),
+    p;
+  if(c) {
+    setCase(c);
+    if(!getData(p = getProject())) setData(p,[]);
+    initialize();
+  }
+};
+var loadProject = function() {
+  // Show prompt with input for project name
+	var pl = getProjects(),
+    p = window.prompt("Proyectos cargados: \n * "+pl.join("\n * ")+"\n\nIngresar nombre de projecto", getProject() || 'UNA2018h1');
+  if(p) setProject(p);
+  if(!getProject()) loadProject();
+  else initialize();
+};
+var showDataTable = function() {
+  // Call external function to generate back up table
+};
+var showExportTable = function() {
+  // Call external function to generate output table.
+};
+var importCSV = function() {
+  // Show prompt with text input
+  // Parse CSV to JS Object and store
+  // Reload basic data
+};
+var handleChange = function() {
+	// console.log('change detected');
+  if(getCase())
+    saveCaseValues();
+  else loadCase();
+  // Auto save case.
+};
+var handleCloseCase = function() {
+  handleChange();
+  if(window.confirm('Guardar y limpiar formulario?')) {
+    setCase('');
+    initialize();
+  }
+};
+var handleDownload = function() {
+  var data = 'data:Application/octet-stream,' + encodeURIComponent(getBackupData());
+  var dlb = document.createElement('a');
+  dlb.id = 'downloadButton';
+  dlb.download = 'unaforms' + getProject() + new Date().toISOString().substr(0,16) + '.json';
+  dlb.href = data;
+  dlb.click();
+};
+var handleInput = function(f) {
+  var fr = new FileReader();
+  fr.readAsText(f,'latin1');
+  fr.onload = function(e) {
+  //ToDo: Check \r in dates
+    try {
+      var data = e.target.result.split("\n"),
+      c, i = 0, r;
+      if(data[i].toLowerCase().indexOf('caso;') === 0) i++;
+      var n = data.length - i;
+      console.log(n);
+      for(;r=data[i++];){
+        c = r.split(';', 7);
+        importCommon({
+          caso:   c[0],
+          nombre: c[1],
+          escuela:c[2],
+          turno:  ''+(c[3].length > 1? 'MTJ'.indexOf(c[3].charAt(0)) : c[3]),
+          sala:   c[4],
+          genero: c[5],
+          fecnac: c[6].substr(0,10).split('/').reverse().join('-')
+        });
+      }
+      alert(n + " Casos cargados");
+    } catch (e) {
+      alert("Error al intentar leer archivo\n" + e);
+    }
+  }
+  fr.onerror = function(e) {
+    alert("Error al intentar leer archivo\n" + e.target.error.name);
+  }
+};
+var handleJSONInput = function(f) {
+  var fr = new FileReader();
+  filename = f.name;
+  console.log(filename, f);
+  fr.readAsText(f);
+  fr.onload = function(e) {
+    var data = JSON.parse(e.target.result);
+    data.forEach((data) => { importData(data); });
+    alert(data.length + " casos cargados");
+    initialize();
+  }
+  fr.onerror = function(e) {
+    alert("Error al intentar leer archivo\n" + e.target.error.name);
+  }
+};
+
+var handleMenu = function() {
+  var m = document.getElementById('menu');
+  m.className = m.className?'':'hidden';
+};
+var handleMenuClose = function() {
+  document.getElementById('menu').className = 'hidden';
+};
+
+//
+// var clearForm = function() {
+//   if(window.confirm('Borrar todos los datos?')){
+//     initialize();
+//     // backToForm();
+//   }
+// };
+window.onload = initialize;
+    </script>
+  </head>
+  <body id="body" class="form">
+		<button onclick="handleMenu()" class="menuButton">=</button>
+		<div id="menu" class="hidden">
+			<button id="projectButton" onclick="loadProject()" class="projectButton"></button>
+			<label for="loadCSV" class="loadcsv">Cargar casos (CSV)</label>
+			<input id="loadCSV" type="file" onchange="handleInput(this.files[0])" class="hidden" />
+			<label for="loadJSON" class="loadcsv">Cargar back up (JSON)</label>
+			<input id="loadJSON" type="file" onchange="handleJSONInput(this.files[0])" class="hidden" />
+			<button onclick="handleDownload()" class="downloadButton">Back up</button>
+		</div>
+		<div id="menuBg" onclick="handleMenuClose()"></div>
+		<div id="result"></div>
+    <!-- <button id="getRowButton" onclick="getRow()">Ver resultado</button> -->
+		<!-- <button id="copyTableButton" onclick="copyToClipboard()">Ver resultados</button>
+    <button id="showTableButton" onclick="showTable()">Ver resultados</button>
+    <button id="addButton" class="save" onclick="addRow()">Guardar datos</button>
+		<button id="backButton" onclick="backToForm()">Ver formulario</button> -->
+		<!-- <button id="clearButton" class="dangerous" onclick="clearForm()">Limpiar formulario</button> -->
+		<div id="form"></div>
+		<div id="footerContainer">
+			<button onclick="handleCloseCase()" class="closeCaseButton">Guardar y cerrar caso</button>
+		</div>
+  </body>
+</html>
